@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
 
-def test_guest_should_see_login_link(browser):
+def test_button_add_to_basket(browser):
     browser.get(link)
     
     #страница товара на сайте содержит кнопку добавления в корзину
