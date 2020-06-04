@@ -1,6 +1,5 @@
 from .base_page import BasePage
 from .locators import LoginPageLocators
-from selenium.webdriver.common.by import By
 
 
 class LoginPage(BasePage):
@@ -10,25 +9,25 @@ class LoginPage(BasePage):
         self.should_be_register_form()
 
     def should_be_login_url(self):
-        # реализуйте проверку на корректный url адрес
-        assert LoginPageLocators.PART_URL in self.browser.current_url, "Current url is incorrect"
-        #assert True
+        assert "login" in self.browser.current_url, "Login link is not found"
 
     def should_be_login_form(self):
-        # реализуйте проверку, что есть форма логина
-        assert self.is_element_present(*LoginPageLocators.LOGIN_FORM), "Login form is not presented"
+        assert self.is_element_present(*LoginPageLocators.LOGIN_EMAIL_FORM), "Login email form is not presented"
+        assert self.is_element_present(*LoginPageLocators.LOGIN_PASSWORD_FORM), "Login password form is not presented"
 
     def should_be_register_form(self):
-        # реализуйте проверку, что есть форма регистрации на странице
-        assert self.is_element_present(*LoginPageLocators.REGISTER_FORM), "Register form is not presented"
+        assert self.is_element_present(*LoginPageLocators.REGISTER_EMAIL_FORM), "Register email form is not presented"
+        assert self.is_element_present(*LoginPageLocators.REGISTER_PASSWORD_FORM), \
+            "Register password form is not presented"
+        assert self.is_element_present(*LoginPageLocators.REGISTER_PASSWORD_CONFIRM_FORM), \
+            "Register password confirm form is not presented"
 
-    def register_new_user(self, email: str, password: str):
-        assert self.is_element_present(*LoginPageLocators.REGISTER_EMAIL), "Email field not presented"
-        assert self.is_element_present(*LoginPageLocators.REGISTER_PASS1), "Pass field not presented"
-        assert self.is_element_present(*LoginPageLocators.REGISTER_PASS2), "Confirm pass field not presented"
-        assert self.is_element_present(*LoginPageLocators.REGISTER_BTN), "Register button not presented"
-
-        self.browser.find_element(*LoginPageLocators.REGISTER_EMAIL).send_keys(email)
-        self.browser.find_element(*LoginPageLocators.REGISTER_PASS1).send_keys(password)
-        self.browser.find_element(*LoginPageLocators.REGISTER_PASS2).send_keys(password)
-        self.browser.find_element(*LoginPageLocators.REGISTER_BTN).click()
+    def register_new_user(self, email, password):
+        email_form = self.browser.find_element(*LoginPageLocators.REGISTER_EMAIL_FORM)
+        password_form = self.browser.find_element(*LoginPageLocators.REGISTER_PASSWORD_FORM)
+        confirm_password_form = self.browser.find_element(*LoginPageLocators.REGISTER_PASSWORD_CONFIRM_FORM)
+        register_button = self.browser.find_element(*LoginPageLocators.REGISTER_CLICK_BUTTON)
+        email_form.send_keys(email)
+        password_form.send_keys(password)
+        confirm_password_form.send_keys(password)
+        register_button.click()
